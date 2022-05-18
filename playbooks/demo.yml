@@ -1,0 +1,28 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: instalamos apache
+      package: 
+        name: httpd
+        state: latest
+    - name: levantar servicio httpd y dejarlo persistente al reboot
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: creamos index.html
+      file:
+        path: /var/www/html/index.html
+        state: touch
+    - name: añadimos contenido a index.html
+      copy:
+        content: "hello world"
+        dest: /var/www/html/index.html
+    - name: validamos si existe apache
+      service: 
+        name: httpd
+      register: apachevar
+    - name: ver contenido variable apachevar
+      debug:
+        msg: "{{ apachevar.status.ActiveState }}" 
