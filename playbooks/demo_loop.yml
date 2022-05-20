@@ -1,0 +1,21 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: creamos usuarios
+      user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        comment: "usuario creado por ansible"
+        state: present
+      with_items:
+        - rlujan
+        - dbolivar
+        - yverasae
+    - name: creamos usuarios 2
+      debug:
+        msg: "usuario {{ item.usuario }} y con grupo {{ item.grupo }}"
+      with_items:
+        - { usuario: 'yverasae', grupo: 'unix'}
+        - { usuario: 'dbolivar', grupo: 'db'}
+      tags: prueba

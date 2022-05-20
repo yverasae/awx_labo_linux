@@ -1,0 +1,23 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+   - name: Crear fichero {{ filename }} con contenido
+     copy:
+       dest: "/var/tmp/{{ filename }}"
+       content: "{{ contenido }}"
+     when: contenido is defined
+   - name: Nos aseguramos que el grupo {{ filegroup }} existe
+     group:
+       name: "{{ filegroup }}"
+       state: present
+   - name: Nos aseguramos que el usuario {{ fileowner }} existe
+     user:
+       name: "{{ fileowner }}"
+       comment: "usuario creado por ansible"
+   - name: Seteamos permisos {{ filemode }}, {{ fileowner }}:{{ filegroup }} a fichero
+     file:
+       path: "/var/tmp/{{ filename }}"
+       owner: "{{ fileowner }}"
+       group: "{{ filegroup }}"
+       mode: "{{ filemode }}"

@@ -1,0 +1,9 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+   - name: Stop service crond
+     service:
+      name: crond
+      state: started
+      enabled: no

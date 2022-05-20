@@ -1,0 +1,10 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: paramos servicio
+      service:
+        name: "{{ servicio }}"
+        state: "{{ accion }}"
+ 
+ # ansible-playbook awx_labo_linux/playbooks/service.yml -e hosts=linux03 -e servicio=httpd -e accion=started

@@ -1,0 +1,12 @@
+
+      uri: 
+        url: "http://{{ hosts }}"
+      ignore_errors: true  # aunque la tarea de error continua con la siguiente
+      register: variable_errors # registro la salida del comando anterior que puedo usar en otra task
+    - name: otra tarea
+      debug:
+        msg: "{{ variable_error }}"---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: validar conexion a apache
